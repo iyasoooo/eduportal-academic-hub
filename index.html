@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPortal - Academic Administration Hub</title>
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Glowing Orbs Wrapper -->
+    <div class="glow-orbs-wrapper">
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- AUTHENTICATION CARD OVERLAY (Visible by default) -->
+    <div class="auth-container" id="auth-container">
+        <div class="glass-card auth-card">
+            <div class="auth-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <h2>EduPortal</h2>
+                <span>Academic Administration Hub</span>
+            </div>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab-btn active" data-auth-tab="signin">Sign In</button>
+                <button class="auth-tab-btn" data-auth-tab="signup">Sign Up</button>
+            </div>
+            
+            <!-- Sign In Form -->
+            <form id="signin-form" class="auth-form active">
+                <div class="form-group">
+                    <label for="signin-username">Username</label>
+                    <input type="text" id="signin-username" placeholder="Enter username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signin-password">Password</label>
+                    <input type="password" id="signin-password" placeholder="Enter password" required>
+                </div>
+                <div class="auth-error" id="signin-error"></div>
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+                
+                <div class="mock-admin-box">
+                    <button type="button" class="btn btn-secondary btn-block" id="mock-admin-btn">
+                        <i class="fa-solid fa-user-shield"></i> Use Mock Admin
+                    </button>
+                    <span class="mock-info">User: <strong>admin</strong> / Pass: <strong>admin123</strong></span>
+                </div>
+            </form>
+            
+            <!-- Sign Up Form -->
+            <form id="signup-form" class="auth-form">
+                <div class="form-group">
+                    <label for="signup-name">Full Name</label>
+                    <input type="text" id="signup-name" placeholder="Enter full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-username">Username</label>
+                    <input type="text" id="signup-username" placeholder="Create username" required>
+                </div>
+                <div class="form-group">
+                    <label for="signup-password">Password</label>
+                    <input type="password" id="signup-password" placeholder="Create password" required>
+                </div>
+                <div class="auth-error" id="signup-error"></div>
+                <div class="auth-success" id="signup-success"></div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN APP CONTAINER (Hidden until authentication) -->
+    <div class="app-container" id="app-container" style="display: none;">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>EduPortal</h1>
+                    <span>Academic Hub</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-menu">
+                <a href="#" class="menu-item active" data-tab="portfolio">
+                    <i class="fa-solid fa-users-gear"></i>
+                    <span>Faculty Directory</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="students">
+                    <i class="fa-solid fa-address-book"></i>
+                    <span>Student Registry</span>
+                </a>
+                <a href="#" class="menu-item" data-tab="todo">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span>Academic Tasks</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="user-badge" id="sidebar-user-badge">
+                    <div class="avatar" id="user-avatar">AD</div>
+                    <div class="user-info">
+                        <span class="user-name" id="user-display-name">Admin Desk</span>
+                        <span class="user-role" id="user-display-role">Faculty Portal</span>
+                    </div>
+                </div>
+                <button class="btn-signout" id="signout-btn" title="Sign Out">
+                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Top Header -->
+            <header class="top-header">
+                <div class="header-left">
+                    <h2 id="page-title">Faculty Directory</h2>
+                    <p id="page-subtitle" class="text-muted">Meet the academic coordinators and system administrators managing this portal.</p>
+                </div>
+                <div class="header-right">
+                    <div class="date-widget">
+                        <i class="fa-regular fa-calendar-check"></i>
+                        <span id="current-date">June 18, 2026</span>
+                    </div>
+                    <div class="status-indicator online">
+                        <span class="dot"></span>
+                        <span class="label">System Active</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scrollable Content Panels -->
+            <div class="content-panel">
+                
+                <!-- SECTION 1: FACULTY DIRECTORY -->
+                <section id="tab-portfolio" class="tab-content active">
+                    <div class="section-intro">
+                        <h3>Administration Overview</h3>
+                        <p>Welcome to <strong>EduPortal</strong>, the centralized Academic Administration Hub for course code <strong>ARC4213 (Cloud Computing)</strong> at UPTM. This application demonstrates cloud system integrations, version control automations, and serverless data storage structures. Below is our designated administrative board and their development profiles.</p>
+                    </div>
+                    
+                    <div class="portfolio-grid" id="portfolio-container">
+                        <!-- Dynamic member profiles injected by portfolio.js -->
+                    </div>
+                </section>
+
+                <!-- SECTION 2: STUDENT REGISTRY -->
+                <section id="tab-students" class="tab-content">
+                    <div class="dashboard-stats">
+                        <div class="stat-card">
+                            <div class="stat-icon icon-blue"><i class="fa-solid fa-id-card"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-value" id="total-students-count">0</span>
+                                <span class="stat-label">Registered Files</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon icon-green"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-value" id="active-students-count">0</span>
+                                <span class="stat-label">Active Enrollments</span>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon icon-yellow"><i class="fa-solid fa-file-invoice"></i></div>
+                            <div class="stat-details">
+                                <span class="stat-value" id="pending-students-count">0</span>
+                                <span class="stat-label">Pending Admissions</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="glass-card table-control-card">
+                        <div class="search-bar">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <input type="text" id="student-search-input" placeholder="Search registry by name, ID, or course...">
+                        </div>
+                        <button class="btn btn-primary" id="open-add-student-btn">
+                            <i class="fa-solid fa-user-plus"></i> Enroll Student
+                        </button>
+                    </div>
+
+                    <div class="glass-card table-container">
+                        <table class="data-table" id="students-table">
+                            <thead>
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Full Name</th>
+                                    <th>Course</th>
+                                    <th>Email</th>
+                                    <th>Status</th>
+                                    <th class="actions-col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="students-table-body">
+                                <!-- Dynamic table rows injected by student.js -->
+                            </tbody>
+                        </table>
+                        <div class="empty-state" id="students-empty-state">
+                            <i class="fa-solid fa-users-slash"></i>
+                            <p>No student registry records found. Create a new enrollment file!</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECTION 3: ACADEMIC TASKS -->
+                <section id="tab-todo" class="tab-content">
+                    <div class="todo-layout">
+                        <!-- Left Panel: Input & Progress -->
+                        <div class="todo-control">
+                            <div class="glass-card task-stats-card">
+                                <h3>Workflow Progress</h3>
+                                <div class="progress-bar-container">
+                                    <div class="progress-bar-fill" id="todo-progress-fill" style="width: 0%"></div>
+                                </div>
+                                <div class="progress-details">
+                                    <span id="todo-progress-percentage">0% Complete</span>
+                                    <span id="todo-progress-ratio" class="text-muted">0/0 Tasks</span>
+                                </div>
+                            </div>
+
+                            <div class="glass-card task-input-card">
+                                <h3>Create Registry Task</h3>
+                                <form id="add-task-form">
+                                    <div class="form-group">
+                                        <label for="task-title-input">Task Description</label>
+                                        <input type="text" id="task-title-input" placeholder="e.g. Audit student files" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="task-priority-input">Urgency Level</label>
+                                        <select id="task-priority-input">
+                                            <option value="low">Low Priority</option>
+                                            <option value="medium" selected>Medium Priority</option>
+                                            <option value="high">High Priority</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary btn-block">
+                                        <i class="fa-solid fa-plus-circle"></i> Log Task
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Task List -->
+                        <div class="todo-list-panel">
+                            <div class="glass-card tasks-container">
+                                <div class="tasks-header">
+                                    <h3>Academic Workflow Checklist</h3>
+                                    <div class="task-filters">
+                                        <button class="filter-btn active" data-filter="all">All</button>
+                                        <button class="filter-btn" data-filter="active">Active</button>
+                                        <button class="filter-btn" data-filter="completed">Completed</button>
+                                    </div>
+                                </div>
+                                <div class="tasks-list" id="todo-list-container">
+                                    <!-- Dynamic tasks injected by todo.js -->
+                                </div>
+                                <div class="empty-state" id="todo-empty-state">
+                                    <i class="fa-solid fa-list-check"></i>
+                                    <p>All clear! No pending tasks in the administrator queue.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- STUDENT MODAL (ADD / EDIT) -->
+    <div class="modal-backdrop" id="student-modal">
+        <div class="glass-card modal-content">
+            <div class="modal-header">
+                <h3 id="modal-title">Enroll Student Record</h3>
+                <button class="modal-close" id="close-modal-btn">&times;</button>
+            </div>
+            <form id="student-form">
+                <input type="hidden" id="student-index-input">
+                <div class="form-group">
+                    <label for="student-id-input">Student ID</label>
+                    <input type="text" id="student-id-input" placeholder="e.g. D03240012" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-name-input">Full Name</label>
+                    <input type="text" id="student-name-input" placeholder="e.g. Ahmad bin Ali" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-course-input">Academic Program</label>
+                    <select id="student-course-input" required>
+                        <option value="">Select a Course</option>
+                        <option value="BIT (Hons) Computer Application Development">BIT (Hons) Computer Application Dev</option>
+                        <option value="BIT (Hons) Cybersecurity">BIT (Hons) Cybersecurity</option>
+                        <option value="Diploma in Computer Science">Diploma in Computer Science</option>
+                        <option value="Diploma in Information Technology">Diploma in Information Technology</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="student-email-input">Institutional Email</label>
+                    <input type="email" id="student-email-input" placeholder="e.g. ahmad.ali@student.uptm.edu.my" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-status-input">Admission Status</label>
+                    <select id="student-status-input" required>
+                        <option value="Active">Active</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary" id="save-student-btn">Save Enrollment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Core App Logic Scripts -->
+    <script src="portfolio.js"></script>
+    <script src="student.js"></script>
+    <script src="todo.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
