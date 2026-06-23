@@ -13,7 +13,7 @@ const defaultGroupMembers = [
         description: "Primarily responsible for the Academic Tasks part.",
         icon: "fi-rr-compass",
         github: "https://github.com/iyasoooo",
-        email: "ilyas.hakim@student.uptm.edu.my"
+        email: "kl2412018208@student.uptm.edu.my"
     },
     {
         name: "MUHAMMAD SYAH BIN RAZAK",
@@ -21,8 +21,8 @@ const defaultGroupMembers = [
         role: "Team Member",
         description: "Group Leader. Mainly responsible for updating the UI theme and layouts.",
         icon: "fi-rr-shield",
-        github: "#",
-        email: "syah.razak@student.uptm.edu.my"
+        github: "https://github.com/SyahRazak03",
+        email: "kl2412018244@student.uptm.edu.my"
     },
     {
         name: "AZIB SAFWAN BIN AHMAD SAKRI",
@@ -30,8 +30,8 @@ const defaultGroupMembers = [
         role: "Team Member",
         description: "Mainly responsible for the Faculty Directory features.",
         icon: "fi-rr-settings",
-        github: "#",
-        email: "azib.safwan@student.uptm.edu.my"
+        github: "https://github.com/AzibAyie",
+        email: "kl2412018392@student.uptm.edu.my"
     },
     {
         name: "MUHAMMAD IDHAM BIN MUHAMMAD ZAINI",
@@ -39,8 +39,8 @@ const defaultGroupMembers = [
         role: "Team Member",
         description: "Mainly responsible for The Student Registry.",
         icon: "fi-rr-database",
-        github: "#",
-        email: "idham.zaini@student.uptm.edu.my"
+        github: "https://github.com/Idhaizs",
+        email: "kl2412018299@student.uptm.edu.my"
     }
 ];
 
@@ -60,12 +60,18 @@ function initPortfolio() {
 function loadFacultyData() {
     const cached = localStorage.getItem('eduportal_faculty');
     let needsReset = false;
-    
+
     if (cached) {
         try {
             const parsed = JSON.parse(cached);
-            // Check if local storage contains old Danish or Sarah placeholders or non-Team Member roles and force-update them
-            if (parsed.some(m => m.name === "Ahmad Danish bin Kamal" || m.name === "Nur Sarah binti Zamri" || m.role !== "Team Member")) {
+            // Check if local storage contains old Danish or Sarah placeholders, non-Team Member roles, or old GitHub links, and force-update them
+            if (parsed.some(m =>
+                m.name === "Ahmad Danish bin Kamal" ||
+                m.name === "Nur Sarah binti Zamri" ||
+                m.role !== "Team Member" ||
+                (m.name === "MUHAMMAD SYAH BIN RAZAK" && m.github === "#") ||
+                (m.name === "MUHAMMAD IDHAM BIN MUHAMMAD ZAINI" && m.github === "#")
+            )) {
                 needsReset = true;
             }
         } catch (e) {
@@ -192,7 +198,7 @@ function openFacultyModal(index) {
 
     // Populate input fields
     document.getElementById('faculty-index-input').value = index;
-    
+
     const nameInput = document.getElementById('faculty-name-input');
     nameInput.value = member.name;
     // Student roles cannot edit their own card's name (to maintain identification integrity)
@@ -231,7 +237,7 @@ function saveFacultyMember() {
     };
 
     localStorage.setItem('eduportal_faculty', JSON.stringify(facultyList));
-    
+
     if (window.ModalHelper) {
         window.ModalHelper.close('faculty-modal');
     }

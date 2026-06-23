@@ -6,10 +6,10 @@ let students = [];
 
 // Seed database with mock records if localStorage is empty
 const defaultStudents = [
-    { id: "D032410001", name: "Ameerul Hakim bin Kamal", course: "BIT (Hons) Computer Application Development", email: "ameerul.hakim@student.uptm.edu.my", status: "Active" },
-    { id: "D032410045", name: "Khairun Nisa binti Osman", course: "BIT (Hons) Cybersecurity", email: "nisa.osman@student.uptm.edu.my", status: "Active" },
-    { id: "D032410092", name: "Tan Wei Jie", course: "BIT (Hons) Computer Application Development", email: "weijie.tan@student.uptm.edu.my", status: "Pending" },
-    { id: "D032410103", name: "Divya a/p Ramasamy", course: "BIT (Hons) Cybersecurity", email: "divya.ramasamy@student.uptm.edu.my", status: "Inactive" }
+    { id: "AM2412018244", name: "MUHAMMAD SYAH BIN RAZAK", course: "BIT (Hons) Computer Application Development", email: "kl2412018244@student.uptm.edu.my", status: "Active" },
+    { id: "AM2412018392", name: "AZIB SAFWAN BIN AHMAD SAKRI", course: "BIT (Hons) Computer Application Development", email: "kl2412018392@student.uptm.edu.my", status: "Active" },
+    { id: "AM2412018208", name: "MUHAMMAD ILYAS BIN MOHD ABDUL HAKIM", course: "BIT (Hons) Computer Application Development", email: "kl2412018208@student.uptm.edu.my", status: "Active" },
+    { id: "AM2412018299", name: "MUHAMMAD IDHAM BIN MUHAMMAD ZAINI", course: "BIT (Hons) Computer Application Development", email: "kl2412018299@student.uptm.edu.my", status: "Active" }
 ];
 
 function initStudentManager() {
@@ -27,7 +27,20 @@ function initStudentManager() {
  */
 function loadStudents() {
     const data = localStorage.getItem('cloudlab_students');
+    let needsReset = false;
+    
     if (data) {
+        try {
+            const parsed = JSON.parse(data);
+            if (parsed.some(s => s.name === "Ameerul Hakim bin Kamal" || s.name === "Khairun Nisa binti Osman")) {
+                needsReset = true;
+            }
+        } catch (e) {
+            needsReset = true;
+        }
+    }
+
+    if (data && !needsReset) {
         students = JSON.parse(data);
     } else {
         students = [...defaultStudents];
