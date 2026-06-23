@@ -59,30 +59,61 @@ function initPortfolio() {
  */
 function loadFacultyData() {
     const cached = localStorage.getItem('eduportal_faculty');
-    let needsReset = false;
+    let facultyData = [];
+    let modified = false;
 
     if (cached) {
         try {
-            const parsed = JSON.parse(cached);
-            // Check if local storage contains old Danish or Sarah placeholders, non-Team Member roles, or old GitHub links, and force-update them
-            if (parsed.some(m =>
-                m.name === "Ahmad Danish bin Kamal" ||
-                m.name === "Nur Sarah binti Zamri" ||
-                m.role !== "Team Member" ||
-                (m.name === "MUHAMMAD SYAH BIN RAZAK" && m.github === "#") ||
-                (m.name === "MUHAMMAD IDHAM BIN MUHAMMAD ZAINI" && m.github === "#")
-            )) {
-                needsReset = true;
+            facultyData = JSON.parse(cached);
+            
+            // 1. Filter out old Danish/Sarah placeholder members
+            const beforeFilterCount = facultyData.length;
+            facultyData = facultyData.filter(m => 
+                m.name !== "Ahmad Danish bin Kamal" && 
+                m.name !== "Nur Sarah binti Zamri"
+            );
+            if (facultyData.length !== beforeFilterCount) {
+                modified = true;
             }
+
+            // 2. Ensure each default team member is present and has up-to-date info
+            defaultGroupMembers.forEach(defaultMember => {
+                const existingIndex = facultyData.findIndex(m => 
+                    m.name.toLowerCase() === defaultMember.name.toLowerCase() || 
+                    m.id.toLowerCase() === defaultMember.id.toLowerCase()
+                );
+
+                if (existingIndex !== -1) {
+                    const existing = facultyData[existingIndex];
+                    // Update if core details differ (role, description, github, email, icon)
+                    if (existing.role !== defaultMember.role ||
+                        existing.github !== defaultMember.github ||
+                        existing.email !== defaultMember.email ||
+                        existing.description !== defaultMember.description ||
+                        existing.icon !== defaultMember.icon ||
+                        existing.id !== defaultMember.id) {
+                        
+                        facultyData[existingIndex] = { ...defaultMember };
+                        modified = true;
+                    }
+                } else {
+                    // Add default member if missing completely
+                    facultyData.push({ ...defaultMember });
+                    modified = true;
+                }
+            });
         } catch (e) {
-            needsReset = true;
+            console.error("Error parsing/migrating faculty data:", e);
+            facultyData = [...defaultGroupMembers];
+            modified = true;
         }
+    } else {
+        facultyData = [...defaultGroupMembers];
+        modified = true;
     }
 
-    if (cached && !needsReset) {
-        facultyList = JSON.parse(cached);
-    } else {
-        facultyList = [...defaultGroupMembers];
+    facultyList = facultyData;
+    if (modified) {
         localStorage.setItem('eduportal_faculty', JSON.stringify(facultyList));
     }
 
