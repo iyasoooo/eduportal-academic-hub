@@ -135,6 +135,68 @@ function saveStudentFromForm() {
     if (indexVal === '') {
         // Create Mode
         students.push(studentObject);
+
+        // 1. Create a corresponding card in Faculty Directory
+        let facultyData = [];
+        try {
+            const cachedFaculty = localStorage.getItem('eduportal_faculty');
+            if (cachedFaculty) {
+                facultyData = JSON.parse(cachedFaculty);
+            }
+        } catch (e) {
+            console.error("Error parsing faculty directory:", e);
+        }
+
+        const facultyExists = facultyData.some(m => m.name.toLowerCase() === nameVal.toLowerCase() || m.id.toLowerCase() === idVal.toLowerCase());
+        if (!facultyExists) {
+            facultyData.push({
+                name: nameVal,
+                id: idVal,
+                role: "Student Coordinator",
+                description: `Student coordinator enrolled in ${courseVal}.`,
+                icon: "fi-rr-user",
+                github: "#",
+                email: emailVal
+            });
+            localStorage.setItem('eduportal_faculty', JSON.stringify(facultyData));
+            
+            // Dynamically update UI if Faculty Directory is currently loaded
+            if (typeof window.loadFacultyData === 'function') {
+                window.loadFacultyData();
+            }
+            if (typeof window.renderPortfolio === 'function') {
+                window.renderPortfolio();
+            }
+        }
+
+        // 2. Create sign-in account
+        let usersData = [];
+        try {
+            const cachedUsers = localStorage.getItem('eduportal_users');
+            if (cachedUsers) {
+                usersData = JSON.parse(cachedUsers);
+            }
+        } catch (e) {
+            console.error("Error parsing user credentials:", e);
+        }
+
+        const firstWord = nameVal.trim().split(/\s+/)[0].toLowerCase();
+        let generatedUsername = firstWord;
+        let suffix = 1;
+        while (usersData.some(u => u.username.toLowerCase() === generatedUsername)) {
+            generatedUsername = firstWord + suffix;
+            suffix++;
+        }
+
+        const newUserAccount = {
+            username: generatedUsername,
+            password: "12345678",
+            name: nameVal
+        };
+        usersData.push(newUserAccount);
+        localStorage.setItem('eduportal_users', JSON.stringify(usersData));
+
+        alert(`Student record added successfully!\n\nFaculty card generated.\nSign-in account created:\nUsername: "${generatedUsername}"\nPassword: "12345678"`);
     } else {
         // Update Mode
         const index = parseInt(indexVal, 10);
