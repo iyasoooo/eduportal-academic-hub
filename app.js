@@ -37,7 +37,7 @@ function initAuth() {
         try {
             const parsed = JSON.parse(cachedUsers);
             // Check if any of the new user accounts are missing or have outdated passwords
-            const hasAdmin = parsed.some(u => u.username.toLowerCase() === 'admin' && u.password === '12345678');
+            const hasAdmin = parsed.some(u => u.username.toLowerCase() === 'admin' && u.password === '12345678' && u.name === 'Admin');
             const hasAzib = parsed.some(u => u.username.toLowerCase() === 'azib' && u.password === '12345678');
             const hasIlyas = parsed.some(u => u.username.toLowerCase() === 'ilyas' && u.password === '12345678');
             const hasIdham = parsed.some(u => u.username.toLowerCase() === 'idham' && u.password === '12345678');
@@ -55,7 +55,7 @@ function initAuth() {
         users = JSON.parse(cachedUsers);
     } else {
         users = [
-            { username: 'admin', password: '12345678', name: 'MUHAMMAD ILYAS (Admin)' },
+            { username: 'admin', password: '12345678', name: 'Admin' },
             { username: 'azib', password: '12345678', name: 'AZIB SAFWAN BIN AHMAD SAKRI' },
             { username: 'ilyas', password: '12345678', name: 'MUHAMMAD ILYAS BIN MOHD ABDUL HAKIM' },
             { username: 'idham', password: '12345678', name: 'MUHAMMAD IDHAM BIN MUHAMMAD ZAINI' },
