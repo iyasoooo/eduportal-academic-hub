@@ -14,7 +14,7 @@ const defaultStudents = [
 
 function initStudentManager() {
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    if (!session || session.username !== 'admin') {
+    if (!session || session.username.toLowerCase() !== 'admin') {
         return; // Prevent execution and API setup for non-admin users
     }
     loadStudents();

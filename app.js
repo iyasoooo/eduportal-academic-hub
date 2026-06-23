@@ -29,14 +29,21 @@ function initAuth() {
     const mockAdminBtn = document.getElementById('mock-admin-btn');
     const signoutBtn = document.getElementById('signout-btn');
 
-    // Seed default admin credentials in localStorage if no database exists
+    // Seed default credentials in localStorage if no database exists or needs update
     let users = [];
     let needsReset = false;
     const cachedUsers = localStorage.getItem('eduportal_users');
     if (cachedUsers) {
         try {
             const parsed = JSON.parse(cachedUsers);
-            if (parsed.some(u => u.username === 'admin' && u.name.includes('Ahmad Danish'))) {
+            // Check if any of the new user accounts are missing or have outdated passwords
+            const hasAdmin = parsed.some(u => u.username.toLowerCase() === 'admin' && u.password === '12345678');
+            const hasAzib = parsed.some(u => u.username.toLowerCase() === 'azib' && u.password === '12345678');
+            const hasIlyas = parsed.some(u => u.username.toLowerCase() === 'ilyas' && u.password === '12345678');
+            const hasIdham = parsed.some(u => u.username.toLowerCase() === 'idham' && u.password === '12345678');
+            const hasSyah = parsed.some(u => u.username.toLowerCase() === 'syah' && u.password === '12345678');
+            
+            if (!hasAdmin || !hasAzib || !hasIlyas || !hasIdham || !hasSyah) {
                 needsReset = true;
             }
         } catch (e) {
@@ -48,9 +55,16 @@ function initAuth() {
         users = JSON.parse(cachedUsers);
     } else {
         users = [
-            { username: 'admin', password: 'admin123', name: 'MUHAMMAD ILYAS (Admin)' }
+            { username: 'admin', password: '12345678', name: 'MUHAMMAD ILYAS (Admin)' },
+            { username: 'azib', password: '12345678', name: 'AZIB SAFWAN BIN AHMAD SAKRI' },
+            { username: 'ilyas', password: '12345678', name: 'MUHAMMAD ILYAS BIN MOHD ABDUL HAKIM' },
+            { username: 'idham', password: '12345678', name: 'MUHAMMAD IDHAM BIN MUHAMMAD ZAINI' },
+            { username: 'syah', password: '12345678', name: 'MUHAMMAD SYAH BIN RAZAK' }
         ];
         localStorage.setItem('eduportal_users', JSON.stringify(users));
+        
+        // Also force a logout if database reset is triggered so the user must sign in with new credentials
+        localStorage.removeItem('eduportal_session');
     }
 
     // Auth Tab Switching
@@ -83,7 +97,7 @@ function initAuth() {
 
             if (user) {
                 // Save active session
-                localStorage.setItem('eduportal_session', JSON.stringify({ username: user.username, name: user.name }));
+                localStorage.setItem('eduportal_session', JSON.stringify({ username: user.username.toLowerCase(), name: user.name }));
                 loginUser(user);
             } else {
                 errorDiv.textContent = 'Invalid username or password.';
@@ -113,7 +127,7 @@ function initAuth() {
             }
 
             // Save new user profile
-            const newUser = { username: usernameInput, password: passwordInput, name: nameInput };
+            const newUser = { username: usernameInput.toLowerCase(), password: passwordInput, name: nameInput };
             database.push(newUser);
             localStorage.setItem('eduportal_users', JSON.stringify(database));
 
@@ -132,9 +146,9 @@ function initAuth() {
     if (mockAdminBtn) {
         mockAdminBtn.addEventListener('click', () => {
             const database = JSON.parse(localStorage.getItem('eduportal_users')) || [];
-            const adminUser = database.find(u => u.username === 'admin');
+            const adminUser = database.find(u => u.username.toLowerCase() === 'admin');
             if (adminUser) {
-                localStorage.setItem('eduportal_session', JSON.stringify({ username: adminUser.username, name: adminUser.name }));
+                localStorage.setItem('eduportal_session', JSON.stringify({ username: adminUser.username.toLowerCase(), name: adminUser.name }));
                 loginUser(adminUser);
             }
         });
@@ -171,7 +185,7 @@ function loginUser(user) {
     const displayAvatar = document.getElementById('user-avatar');
     const displayRole = document.getElementById('user-display-role');
 
-    const isAdmin = user.username === 'admin';
+    const isAdmin = user.username.toLowerCase() === 'admin';
     if (displayName) displayName.textContent = user.name;
     if (displayRole) displayRole.textContent = isAdmin ? 'Faculty Admin' : 'Student';
     
@@ -237,7 +251,7 @@ function initRouter() {
 
             // RBAC Routing Guard: Only Admins can access Student Registry
             const session = JSON.parse(localStorage.getItem('eduportal_session'));
-            if (targetTab === 'students' && (!session || session.username !== 'admin')) {
+            if (targetTab === 'students' && (!session || session.username.toLowerCase() !== 'admin')) {
                 return; // Silently reject navigation
             }
 

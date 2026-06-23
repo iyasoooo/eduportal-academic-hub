@@ -33,7 +33,7 @@ function loadTodos() {
     }
 
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    const username = session ? session.username : 'admin';
+    const username = session ? session.username.toLowerCase() : 'admin';
 
     // Seed default tasks for this specific user if they don't have any tasks at all
     const userHasTasks = todos.some(t => t.username === username);
@@ -65,7 +65,7 @@ function updateTodoProgress() {
     const ratioLabel = document.getElementById('todo-progress-ratio');
 
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    const username = session ? session.username : 'admin';
+    const username = session ? session.username.toLowerCase() : 'admin';
     const userTodos = todos.filter(t => t.username === username);
 
     const total = userTodos.length;
@@ -113,7 +113,7 @@ function addNewTodo() {
     if (!titleInput || !prioritySelect) return;
 
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    const username = session ? session.username : 'admin';
+    const username = session ? session.username.toLowerCase() : 'admin';
 
     const newTodo = {
         id: 'todo-' + Date.now(),
@@ -142,7 +142,7 @@ function renderTodos() {
     if (!container) return;
 
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    const username = session ? session.username : 'admin';
+    const username = session ? session.username.toLowerCase() : 'admin';
 
     // Only show current user's todos
     const userTodos = todos.filter(t => t.username === username);

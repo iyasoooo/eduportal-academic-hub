@@ -82,7 +82,7 @@ function loadFacultyData() {
 
     // Auto-create own card for a new student user if it doesn't exist
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    if (session && session.username !== 'admin') {
+    if (session && session.username.toLowerCase() !== 'admin') {
         const hasOwnCard = facultyList.some(member => member.name.toLowerCase() === session.name.toLowerCase());
         if (!hasOwnCard) {
             facultyList.push({
@@ -107,7 +107,7 @@ function renderPortfolio() {
     if (!container) return;
 
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    const isAdmin = session && session.username === 'admin';
+    const isAdmin = session && session.username.toLowerCase() === 'admin';
 
     container.innerHTML = facultyList.map((member, index) => {
         // Edit button is shown to admin on all cards, or to a student only on their own card
@@ -188,7 +188,7 @@ function openFacultyModal(index) {
     if (!member) return;
 
     const session = JSON.parse(localStorage.getItem('eduportal_session'));
-    const isAdmin = session && session.username === 'admin';
+    const isAdmin = session && session.username.toLowerCase() === 'admin';
 
     // Populate input fields
     document.getElementById('faculty-index-input').value = index;
