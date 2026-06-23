@@ -9,8 +9,8 @@ const defaultGroupMembers = [
     {
         name: "MUHAMMAD ILYAS BIN MOHD ABDUL HAKIM",
         id: "AM2412018208",
-        role: "Lead Systems Architect",
-        description: "Designed the core EduPortal dashboard, navigation routing logic, and coordinated team repository collaboration.",
+        role: "Team Member",
+        description: "Primarily responsible for the Academic Tasks part.",
         icon: "fi-rr-compass",
         github: "https://github.com/iyasoooo",
         email: "ilyas.hakim@student.uptm.edu.my"
@@ -18,8 +18,8 @@ const defaultGroupMembers = [
     {
         name: "MUHAMMAD SYAH BIN RAZAK",
         id: "AM2412018244",
-        role: "Cloud Systems Integrator & Security Lead",
-        description: "Manages cloud application security policy enforcement, directory role configurations, and access isolation rules.",
+        role: "Team Member",
+        description: "Group Leader. Mainly responsible for updating the UI theme and layouts.",
         icon: "fi-rr-shield",
         github: "#",
         email: "syah.razak@student.uptm.edu.my"
@@ -27,8 +27,8 @@ const defaultGroupMembers = [
     {
         name: "AZIB SAFWAN BIN AHMAD SAKRI",
         id: "AM2412018392",
-        role: "Lead Cloud Deployment Engineer",
-        description: "Configures Netlify/Vercel continuous deployment workflows, repository webhooks, and live site updates.",
+        role: "Team Member",
+        description: "Mainly responsible for the Faculty Directory features.",
         icon: "fi-rr-settings",
         github: "#",
         email: "azib.safwan@student.uptm.edu.my"
@@ -36,8 +36,8 @@ const defaultGroupMembers = [
     {
         name: "MUHAMMAD IDHAM BIN MUHAMMAD ZAINI",
         id: "AM2412018299",
-        role: "Database & Storage Specialist",
-        description: "Programmed student registry search filters, database memory cache, and client data persistence mechanisms.",
+        role: "Team Member",
+        description: "Mainly responsible for The Student Registry.",
         icon: "fi-rr-database",
         github: "#",
         email: "idham.zaini@student.uptm.edu.my"
@@ -64,8 +64,8 @@ function loadFacultyData() {
     if (cached) {
         try {
             const parsed = JSON.parse(cached);
-            // Check if local storage contains old Danish or Sarah placeholders and force-update them
-            if (parsed.some(m => m.name === "Ahmad Danish bin Kamal" || m.name === "Nur Sarah binti Zamri")) {
+            // Check if local storage contains old Danish or Sarah placeholders or non-Team Member roles and force-update them
+            if (parsed.some(m => m.name === "Ahmad Danish bin Kamal" || m.name === "Nur Sarah binti Zamri" || m.role !== "Team Member")) {
                 needsReset = true;
             }
         } catch (e) {
