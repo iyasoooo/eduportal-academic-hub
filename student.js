@@ -13,6 +13,10 @@ const defaultStudents = [
 ];
 
 function initStudentManager() {
+    const session = JSON.parse(localStorage.getItem('eduportal_session'));
+    if (!session || session.username !== 'admin') {
+        return; // Prevent execution and API setup for non-admin users
+    }
     loadStudents();
     setupStudentEventListeners();
     renderStudentsTable();
@@ -171,10 +175,10 @@ function renderStudentsTable(filterQuery = '') {
                     <td><span class="status-badge ${statusClass}">${student.status}</span></td>
                     <td class="actions-col">
                         <button onclick="editStudent(${globalIndex})" class="action-btn action-edit" title="Edit Student">
-                            <i class="fa-solid fa-pencil"></i>
+                            <i class="fi fi-rr-edit"></i>
                         </button>
                         <button onclick="deleteStudent(${globalIndex})" class="action-btn action-delete" title="Delete Student">
-                            <i class="fa-solid fa-trash-can"></i>
+                            <i class="fi fi-rr-trash"></i>
                         </button>
                     </td>
                 </tr>

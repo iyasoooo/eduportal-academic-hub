@@ -159,8 +159,9 @@ function loginUser(user) {
     const displayAvatar = document.getElementById('user-avatar');
     const displayRole = document.getElementById('user-display-role');
 
+    const isAdmin = user.username === 'admin';
     if (displayName) displayName.textContent = user.name;
-    if (displayRole) displayRole.textContent = user.username === 'admin' ? 'Faculty Admin' : 'Course Coordinator';
+    if (displayRole) displayRole.textContent = isAdmin ? 'Faculty Admin' : 'Student';
     
     if (displayAvatar) {
         // Grab first initials of name
@@ -171,6 +172,24 @@ function loginUser(user) {
     // Toggle container views
     authContainer.style.display = 'none';
     appContainer.style.display = 'flex';
+
+    // RBAC: Show/Hide Student Registry based on Admin status
+    const studentMenuItem = document.querySelector('.menu-item[data-tab="students"]');
+    if (studentMenuItem) {
+        studentMenuItem.style.display = isAdmin ? 'flex' : 'none';
+    }
+
+    // Reset view to Faculty Directory to prevent leaking view states
+    const portfolioTab = document.querySelector('.menu-item[data-tab="portfolio"]');
+    if (portfolioTab) {
+        portfolioTab.click();
+    }
+
+    // Dynamic data rendering based on user role/session
+    if (typeof loadTodos === 'function') loadTodos();
+    if (typeof renderTodos === 'function') renderTodos();
+    if (typeof initPortfolio === 'function') initPortfolio();
+    if (typeof initStudentManager === 'function') initStudentManager();
 }
 
 /**
@@ -203,6 +222,12 @@ function initRouter() {
             
             const targetTab = item.getAttribute('data-tab');
             if (!targetTab) return;
+
+            // RBAC Routing Guard: Only Admins can access Student Registry
+            const session = JSON.parse(localStorage.getItem('eduportal_session'));
+            if (targetTab === 'students' && (!session || session.username !== 'admin')) {
+                return; // Silently reject navigation
+            }
 
             // Remove active classes
             menuItems.forEach(mi => mi.classList.remove('active'));

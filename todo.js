@@ -1,5 +1,5 @@
 /* ==========================================================================
-   Feature Module: Academic Task Tracker (LocalStorage State)
+   Feature Module: Academic Task Tracker (LocalStorage State with RBAC)
    ========================================================================== */
 
 let todos = [];
@@ -29,8 +29,22 @@ function loadTodos() {
     if (data) {
         todos = JSON.parse(data);
     } else {
-        todos = [...defaultTodos];
-        saveTodos();
+        todos = [];
+    }
+
+    const session = JSON.parse(localStorage.getItem('eduportal_session'));
+    const username = session ? session.username : 'admin';
+
+    // Seed default tasks for this specific user if they don't have any tasks at all
+    const userHasTasks = todos.some(t => t.username === username);
+    if (!userHasTasks) {
+        const userDefaults = defaultTodos.map((todo, idx) => ({
+            ...todo,
+            id: `todo-${username}-${idx}-${Date.now()}`,
+            username: username
+        }));
+        todos = [...todos, ...userDefaults];
+        localStorage.setItem('cloudlab_todos', JSON.stringify(todos));
     }
 }
 
@@ -43,15 +57,19 @@ function saveTodos() {
 }
 
 /**
- * Updates progress bar metrics
+ * Updates progress bar metrics for the logged-in user
  */
 function updateTodoProgress() {
     const progressFill = document.getElementById('todo-progress-fill');
     const percentageLabel = document.getElementById('todo-progress-percentage');
     const ratioLabel = document.getElementById('todo-progress-ratio');
 
-    const total = todos.length;
-    const completed = todos.filter(t => t.completed).length;
+    const session = JSON.parse(localStorage.getItem('eduportal_session'));
+    const username = session ? session.username : 'admin';
+    const userTodos = todos.filter(t => t.username === username);
+
+    const total = userTodos.length;
+    const completed = userTodos.filter(t => t.completed).length;
     const percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
 
     if (progressFill) progressFill.style.width = `${percentage}%`;
@@ -68,10 +86,10 @@ function setupTodoEventListeners() {
 
     // Add Task
     if (form) {
-        form.addEventListener('submit', (e) => {
+        form.onsubmit = (e) => {
             e.preventDefault();
             addNewTodo();
-        });
+        };
     }
 
     // Filter Navigation Click Triggers
@@ -94,11 +112,15 @@ function addNewTodo() {
 
     if (!titleInput || !prioritySelect) return;
 
+    const session = JSON.parse(localStorage.getItem('eduportal_session'));
+    const username = session ? session.username : 'admin';
+
     const newTodo = {
         id: 'todo-' + Date.now(),
         title: titleInput.value.trim(),
         priority: prioritySelect.value,
-        completed: false
+        completed: false,
+        username: username
     };
 
     todos.unshift(newTodo); // Add to beginning of checklist
@@ -119,12 +141,18 @@ function renderTodos() {
 
     if (!container) return;
 
+    const session = JSON.parse(localStorage.getItem('eduportal_session'));
+    const username = session ? session.username : 'admin';
+
+    // Only show current user's todos
+    const userTodos = todos.filter(t => t.username === username);
+
     // Filter items
-    let filtered = todos;
+    let filtered = userTodos;
     if (currentFilter === 'active') {
-        filtered = todos.filter(t => !t.completed);
+        filtered = userTodos.filter(t => !t.completed);
     } else if (currentFilter === 'completed') {
-        filtered = todos.filter(t => t.completed);
+        filtered = userTodos.filter(t => t.completed);
     }
 
     // Toggle empty state visibility
@@ -147,7 +175,7 @@ function renderTodos() {
                 <div class="task-meta">
                     <span class="task-priority-badge priority-${todo.priority}">${todo.priority}</span>
                     <button onclick="deleteTodo('${todo.id}')" class="action-btn action-delete" title="Delete Task">
-                        <i class="fa-solid fa-trash-can"></i>
+                        <i class="fi fi-rr-trash"></i>
                     </button>
                 </div>
             </div>
@@ -198,3 +226,5 @@ function deleteTodo(id) {
 // Expose handlers globally
 window.toggleTodoStatus = toggleTodoStatus;
 window.deleteTodo = deleteTodo;
+window.loadTodos = loadTodos;
+window.renderTodos = renderTodos;

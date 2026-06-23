@@ -8,25 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Premium Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Flaticon UIcons for Premium Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@flaticon/flaticon-uicons@3.3.1/css/all/all.min.css">
     <!-- Custom Style Sheet -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Background Glowing Orbs Wrapper -->
-    <div class="glow-orbs-wrapper">
-        <div class="glow-orb orb-1"></div>
-        <div class="glow-orb orb-2"></div>
-        <div class="glow-orb orb-3"></div>
-    </div>
+
 
     <!-- AUTHENTICATION CARD OVERLAY (Visible by default) -->
     <div class="auth-container" id="auth-container">
         <div class="glass-card auth-card">
             <div class="auth-brand">
                 <div class="brand-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
+                    <img src="LOGO_UPTM_no_bg.png" alt="UPTM Logo" class="brand-logo">
                 </div>
                 <h2>EduPortal</h2>
                 <span>Academic Administration Hub</span>
@@ -52,7 +47,7 @@
                 
                 <div class="mock-admin-box">
                     <button type="button" class="btn btn-secondary btn-block" id="mock-admin-btn">
-                        <i class="fa-solid fa-user-shield"></i> Use Mock Admin
+                        <i class="fi fi-rr-user-shield"></i> Use Mock Admin
                     </button>
                     <span class="mock-info">User: <strong>admin</strong> / Pass: <strong>admin123</strong></span>
                 </div>
@@ -85,7 +80,7 @@
         <aside class="sidebar">
             <div class="sidebar-brand">
                 <div class="brand-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
+                    <img src="LOGO_UPTM_no_bg.png" alt="UPTM Logo" class="brand-logo">
                 </div>
                 <div class="brand-text">
                     <h1>EduPortal</h1>
@@ -95,15 +90,15 @@
             
             <nav class="sidebar-menu">
                 <a href="#" class="menu-item active" data-tab="portfolio">
-                    <i class="fa-solid fa-users-gear"></i>
+                    <i class="fi fi-rr-users-gear"></i>
                     <span>Faculty Directory</span>
                 </a>
                 <a href="#" class="menu-item" data-tab="students">
-                    <i class="fa-solid fa-address-book"></i>
+                    <i class="fi fi-rr-address-book"></i>
                     <span>Student Registry</span>
                 </a>
                 <a href="#" class="menu-item" data-tab="todo">
-                    <i class="fa-solid fa-clipboard-list"></i>
+                    <i class="fi fi-rr-clipboard-list"></i>
                     <span>Academic Tasks</span>
                 </a>
             </nav>
@@ -117,7 +112,7 @@
                     </div>
                 </div>
                 <button class="btn-signout" id="signout-btn" title="Sign Out">
-                    <i class="fa-solid fa-right-from-bracket"></i> Sign Out
+                    <i class="fi fi-rr-sign-out-alt"></i> Sign Out
                 </button>
             </div>
         </aside>
@@ -132,7 +127,7 @@
                 </div>
                 <div class="header-right">
                     <div class="date-widget">
-                        <i class="fa-regular fa-calendar-check"></i>
+                        <i class="fi fi-rr-calendar-check"></i>
                         <span id="current-date">June 18, 2026</span>
                     </div>
                     <div class="status-indicator online">
@@ -161,21 +156,21 @@
                 <section id="tab-students" class="tab-content">
                     <div class="dashboard-stats">
                         <div class="stat-card">
-                            <div class="stat-icon icon-blue"><i class="fa-solid fa-id-card"></i></div>
+                            <div class="stat-icon icon-blue"><i class="fi fi-rr-id-card"></i></div>
                             <div class="stat-details">
                                 <span class="stat-value" id="total-students-count">0</span>
                                 <span class="stat-label">Registered Files</span>
                             </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-icon icon-green"><i class="fa-solid fa-user-check"></i></div>
+                            <div class="stat-icon icon-green"><i class="fi fi-rr-user-check"></i></div>
                             <div class="stat-details">
                                 <span class="stat-value" id="active-students-count">0</span>
                                 <span class="stat-label">Active Enrollments</span>
                             </div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-icon icon-yellow"><i class="fa-solid fa-file-invoice"></i></div>
+                            <div class="stat-icon icon-yellow"><i class="fi fi-rr-file-invoice"></i></div>
                             <div class="stat-details">
                                 <span class="stat-value" id="pending-students-count">0</span>
                                 <span class="stat-label">Pending Admissions</span>
@@ -185,11 +180,11 @@
 
                     <div class="glass-card table-control-card">
                         <div class="search-bar">
-                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <i class="fi fi-rr-search"></i>
                             <input type="text" id="student-search-input" placeholder="Search registry by name, ID, or course...">
                         </div>
                         <button class="btn btn-primary" id="open-add-student-btn">
-                            <i class="fa-solid fa-user-plus"></i> Enroll Student
+                            <i class="fi fi-rr-user-add"></i> Enroll Student
                         </button>
                     </div>
 
@@ -210,7 +205,7 @@
                             </tbody>
                         </table>
                         <div class="empty-state" id="students-empty-state">
-                            <i class="fa-solid fa-users-slash"></i>
+                            <i class="fi fi-rr-users-slash"></i>
                             <p>No student registry records found. Create a new enrollment file!</p>
                         </div>
                     </div>
@@ -248,7 +243,7 @@
                                         </select>
                                     </div>
                                     <button type="submit" class="btn btn-primary btn-block">
-                                        <i class="fa-solid fa-plus-circle"></i> Log Task
+                                        <i class="fi fi-rr-plus"></i> Log Task
                                     </button>
                                 </form>
                             </div>
@@ -269,7 +264,7 @@
                                     <!-- Dynamic tasks injected by todo.js -->
                                 </div>
                                 <div class="empty-state" id="todo-empty-state">
-                                    <i class="fa-solid fa-list-check"></i>
+                                    <i class="fi fi-rr-list-check"></i>
                                     <p>All clear! No pending tasks in the administrator queue.</p>
                                 </div>
                             </div>
@@ -323,6 +318,59 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" id="cancel-modal-btn">Cancel</button>
                     <button type="submit" class="btn btn-primary" id="save-student-btn">Save Enrollment</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- FACULTY MEMBER MODAL (EDIT) -->
+    <div class="modal-backdrop" id="faculty-modal">
+        <div class="glass-card modal-content">
+            <div class="modal-header">
+                <h3 id="faculty-modal-title">Modify Faculty Profile</h3>
+                <button class="modal-close" id="close-faculty-modal-btn">&times;</button>
+            </div>
+            <form id="faculty-form">
+                <input type="hidden" id="faculty-index-input">
+                <div class="form-group">
+                    <label for="faculty-name-input">Full Name</label>
+                    <input type="text" id="faculty-name-input" placeholder="e.g. Ahmad Danish bin Kamal" required>
+                </div>
+                <div class="form-group">
+                    <label for="faculty-id-input">Student/Faculty ID</label>
+                    <input type="text" id="faculty-id-input" placeholder="e.g. D032310142" required>
+                </div>
+                <div class="form-group">
+                    <label for="faculty-role-input">Academic Role</label>
+                    <input type="text" id="faculty-role-input" placeholder="e.g. Faculty Coordinator" required>
+                </div>
+                <div class="form-group">
+                    <label for="faculty-desc-input">Description / Contribution</label>
+                    <textarea id="faculty-desc-input" rows="3" placeholder="Describe contributions..." required style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--border-radius-sm); border: 1px solid var(--glass-border); background: var(--bg-primary); color: var(--text-primary); font-family: inherit; font-size: 0.88rem; outline: none; transition: var(--transition-smooth); resize: vertical;"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="faculty-email-input">Institutional Email</label>
+                    <input type="email" id="faculty-email-input" placeholder="e.g. danish.kamal@student.uptm.edu.my" required>
+                </div>
+                <div class="form-group">
+                    <label for="faculty-github-input">GitHub Link</label>
+                    <input type="text" id="faculty-github-input" placeholder="e.g. https://github.com/username">
+                </div>
+                <div class="form-group">
+                    <label for="faculty-icon-input">Profile Icon (Flaticon Class)</label>
+                    <select id="faculty-icon-input" required>
+                        <option value="fi-rr-settings">Settings Icon</option>
+                        <option value="fi-rr-compass">Compass Icon</option>
+                        <option value="fi-rr-database">Database Icon</option>
+                        <option value="fi-rr-shield">Shield Icon</option>
+                        <option value="fi-rr-user">User Icon</option>
+                        <option value="fi-rr-graduation-cap">Graduation Cap Icon</option>
+                        <option value="fi-rr-book-alt">Book Icon</option>
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="cancel-faculty-modal-btn">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save Profile</button>
                 </div>
             </form>
         </div>
