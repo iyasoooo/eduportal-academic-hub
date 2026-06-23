@@ -14,17 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Handles Authentication state, logins, signups, and local session management
+ * Handles Authentication state, logins, and local session management
  */
 function initAuth() {
     const authContainer = document.getElementById('auth-container');
     const appContainer = document.getElementById('app-container');
     
     const signinForm = document.getElementById('signin-form');
-    const signupForm = document.getElementById('signup-form');
-    
-    const authTabButtons = document.querySelectorAll('.auth-tab-btn');
-    const authForms = document.querySelectorAll('.auth-form');
     
     const mockAdminBtn = document.getElementById('mock-admin-btn');
     const signoutBtn = document.getElementById('signout-btn');
@@ -67,24 +63,7 @@ function initAuth() {
         localStorage.removeItem('eduportal_session');
     }
 
-    // Auth Tab Switching
-    authTabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            const targetTab = btn.getAttribute('data-auth-tab');
-            authTabButtons.forEach(b => b.classList.remove('active'));
-            authForms.forEach(f => f.classList.remove('active'));
-            
-            btn.classList.add('active');
-            document.getElementById(`${targetTab}-form`).classList.add('active');
-            
-            // Clear prior errors
-            document.getElementById('signin-error').textContent = '';
-            document.getElementById('signup-error').textContent = '';
-            document.getElementById('signup-success').textContent = '';
-        });
-    });
 
-    // Sign In Event Handler
     if (signinForm) {
         signinForm.addEventListener('submit', (e) => {
             e.preventDefault();
@@ -105,42 +84,6 @@ function initAuth() {
         });
     }
 
-    // Sign Up Event Handler
-    if (signupForm) {
-        signupForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const nameInput = document.getElementById('signup-name').value.trim();
-            const usernameInput = document.getElementById('signup-username').value.trim();
-            const passwordInput = document.getElementById('signup-password').value;
-            const errorDiv = document.getElementById('signup-error');
-            const successDiv = document.getElementById('signup-success');
-
-            errorDiv.textContent = '';
-            successDiv.textContent = '';
-
-            const database = JSON.parse(localStorage.getItem('eduportal_users')) || [];
-            const userExists = database.some(u => u.username.toLowerCase() === usernameInput.toLowerCase());
-
-            if (userExists) {
-                errorDiv.textContent = 'Username is already taken.';
-                return;
-            }
-
-            // Save new user profile
-            const newUser = { username: usernameInput.toLowerCase(), password: passwordInput, name: nameInput };
-            database.push(newUser);
-            localStorage.setItem('eduportal_users', JSON.stringify(database));
-
-            successDiv.textContent = 'Registration successful! Redirecting to Sign In...';
-            signupForm.reset();
-
-            // Auto switch back to sign-in tab after a short delay
-            setTimeout(() => {
-                const signinTabBtn = document.querySelector('[data-auth-tab="signin"]');
-                if (signinTabBtn) signinTabBtn.click();
-            }, 1500);
-        });
-    }
 
     // Mock Administrator Quick Bypass
     if (mockAdminBtn) {
