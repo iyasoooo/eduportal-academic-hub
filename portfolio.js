@@ -7,40 +7,40 @@
  */
 const defaultGroupMembers = [
     {
-        name: "Ahmad Danish bin Kamal",
-        id: "D032310142",
-        role: "Faculty Coordinator & Lead Cloud Architect",
-        description: "Coordinated the GitHub system integration and web hook configurations. Oversees server continuous deployment metrics.",
-        icon: "fi-rr-settings",
-        github: "#",
-        email: "danish.kamal@student.uptm.edu.my"
-    },
-    {
-        name: "Nur Sarah binti Zamri",
-        id: "D032310088",
-        role: "Lead Academic Systems Designer",
-        description: "Drafted user interfaces, interactive styles, responsive mobile wrappers, and dark glassmorphic layouts.",
+        name: "MUHAMMAD ILYAS BIN MOHD ABDUL HAKIM",
+        id: "AM2412018208",
+        role: "Lead Systems Architect",
+        description: "Designed the core EduPortal dashboard, navigation routing logic, and coordinated team repository collaboration.",
         icon: "fi-rr-compass",
-        github: "#",
-        email: "sarah.zamri@student.uptm.edu.my"
+        github: "https://github.com/iyasoooo",
+        email: "ilyas.hakim@student.uptm.edu.my"
     },
     {
-        name: "Muhammad Haris bin Rostam",
-        id: "D032310255",
-        role: "Systems Database Specialist",
-        description: "Programmed JavaScript dashboard state engines, registry query search indexes, and local storage database serialization.",
-        icon: "fi-rr-database",
-        github: "#",
-        email: "haris.rostam@student.uptm.edu.my"
-    },
-    {
-        name: "Siti Aminah binti Yusuf",
-        id: "D032310119",
-        role: "Academic Systems Auditor",
-        description: "Executed security boundaries validation, cross-browser performance tests, and compiled compliance documentation reviews.",
+        name: "MUHAMMAD SYAH BIN RAZAK",
+        id: "AM2412018244",
+        role: "Cloud Systems Integrator & Security Lead",
+        description: "Manages cloud application security policy enforcement, directory role configurations, and access isolation rules.",
         icon: "fi-rr-shield",
         github: "#",
-        email: "aminah.yusuf@student.uptm.edu.my"
+        email: "syah.razak@student.uptm.edu.my"
+    },
+    {
+        name: "AZIB SAFWAN BIN AHMAD SAKRI",
+        id: "AM2412018392",
+        role: "Lead Cloud Deployment Engineer",
+        description: "Configures Netlify/Vercel continuous deployment workflows, repository webhooks, and live site updates.",
+        icon: "fi-rr-settings",
+        github: "#",
+        email: "azib.safwan@student.uptm.edu.my"
+    },
+    {
+        name: "MUHAMMAD IDHAM BIN MUHAMMAD ZAINI",
+        id: "AM2412018299",
+        role: "Database & Storage Specialist",
+        description: "Programmed student registry search filters, database memory cache, and client data persistence mechanisms.",
+        icon: "fi-rr-database",
+        github: "#",
+        email: "idham.zaini@student.uptm.edu.my"
     }
 ];
 
@@ -59,7 +59,21 @@ function initPortfolio() {
  */
 function loadFacultyData() {
     const cached = localStorage.getItem('eduportal_faculty');
+    let needsReset = false;
+    
     if (cached) {
+        try {
+            const parsed = JSON.parse(cached);
+            // Check if local storage contains old Danish or Sarah placeholders and force-update them
+            if (parsed.some(m => m.name === "Ahmad Danish bin Kamal" || m.name === "Nur Sarah binti Zamri")) {
+                needsReset = true;
+            }
+        } catch (e) {
+            needsReset = true;
+        }
+    }
+
+    if (cached && !needsReset) {
         facultyList = JSON.parse(cached);
     } else {
         facultyList = [...defaultGroupMembers];

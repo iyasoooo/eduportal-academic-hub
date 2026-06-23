@@ -31,12 +31,24 @@ function initAuth() {
 
     // Seed default admin credentials in localStorage if no database exists
     let users = [];
+    let needsReset = false;
     const cachedUsers = localStorage.getItem('eduportal_users');
     if (cachedUsers) {
+        try {
+            const parsed = JSON.parse(cachedUsers);
+            if (parsed.some(u => u.username === 'admin' && u.name.includes('Ahmad Danish'))) {
+                needsReset = true;
+            }
+        } catch (e) {
+            needsReset = true;
+        }
+    }
+
+    if (cachedUsers && !needsReset) {
         users = JSON.parse(cachedUsers);
     } else {
         users = [
-            { username: 'admin', password: 'admin123', name: 'Ahmad Danish (Admin)' }
+            { username: 'admin', password: 'admin123', name: 'MUHAMMAD ILYAS (Admin)' }
         ];
         localStorage.setItem('eduportal_users', JSON.stringify(users));
     }
