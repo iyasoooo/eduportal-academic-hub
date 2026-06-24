@@ -11,10 +11,10 @@
     --glass-highlight: rgba(30, 86, 160, 0.08);
     
     /* UPTM Brand Colors */
-    --uptm-primary: #1E56A0;
-    --uptm-primary-glow: rgba(30, 86, 160, 0.15);
-    --uptm-secondary: #F31523;
-    --uptm-secondary-glow: rgba(243, 21, 35, 0.15);
+    --uptm-primary: black;
+    --uptm-primary-glow: black
+    --uptm-secondary: black;
+    --uptm-secondary-glow: black;
     
     /* Legacy neon aliases for backward compatibility */
     --accent-pink: var(--uptm-primary);
@@ -91,6 +91,7 @@ body {
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
+    padding: 2rem 1.25rem;
     padding: 2rem 1.25rem;
     height: calc(100vh - 3rem);
     position: sticky;
